@@ -1,0 +1,52 @@
+<div class="container">
+  <div
+    class="alert alert-danger alert-dismissible fade show"
+    role="alert"
+    *ngIf="errorMsg"
+  >
+    {{ errorMsg }}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="dropdown text-end">
+    <button
+      class="btn btn-secondary btn-sm dropdown-toggle"
+      type="button"
+      id="foodTypeMenuButton"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      Food Category
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="foodTypeMenuButton">
+      <li *ngFor="let foodType of foodTypes">
+        <a
+          class="dropdown-item"
+          href="#"
+          [attr.data-value]="foodType"
+          (click)="foodTypeSelected($event)"
+          >{{ foodType | titlecase }}</a
+        >
+      </li>
+    </ul>
+  </div>
+  <br />
+  <div class="row row-cols-3 text-center" *ngFor="let food of foods">
+    <div class="col">
+      <div class="card" style="width: 18rem">
+        <img [src]="food.foodPic" class="card-img-top" alt="" />
+        <div class="card-body">
+          <h5 class="card-title">{{ food.foodName }}</h5>
+          <p class="card-text">
+            {{ food.description }}
+          </p>
+          <button class="btn btn-primary">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
