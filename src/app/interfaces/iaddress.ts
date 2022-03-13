@@ -1,8 +1,8 @@
 export interface IAddress {
-  houseNo: number;
+  houseNo: number | undefined;
   street: string;
   city: string;
   state: string;
   country: string;
-  zipCode: number;
+  zipCode: number | undefined;
 }

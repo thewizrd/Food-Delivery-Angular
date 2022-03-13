@@ -14,37 +14,52 @@
   </div>
   <div class="dropdown text-end">
     <button
-      class="btn btn-secondary btn-sm dropdown-toggle"
+      class="btn btn-secondary dropdown-toggle"
       type="button"
       id="foodTypeMenuButton"
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      Food Category
+      <span *ngIf="selectedFoodType == 'All'">Food Category</span>
+      <span *ngIf="selectedFoodType != 'All'">{{
+        selectedFoodType | titlecase
+      }}</span>
     </button>
     <ul class="dropdown-menu" aria-labelledby="foodTypeMenuButton">
       <li *ngFor="let foodType of foodTypes">
-        <a
+        <button
           class="dropdown-item"
-          href="#"
           [attr.data-value]="foodType"
           (click)="foodTypeSelected($event)"
-          >{{ foodType | titlecase }}</a
         >
+          {{ foodType | titlecase }}
+        </button>
       </li>
     </ul>
   </div>
   <br />
-  <div class="row row-cols-3 text-center" *ngFor="let food of foods">
-    <div class="col">
-      <div class="card" style="width: 18rem">
-        <img [src]="food.foodPic" class="card-img-top" alt="" />
+  <div class="row text-center">
+    <div *ngFor="let food of foods" class="col-md-4 col-sm-6 col-12 mt-3">
+      <div class="card h-100">
+        <a
+          routerLink="/food/details/{{ food.foodID }}"
+          routerLinkActive="router-link-active"
+        >
+          <img [src]="food.foodPic" class="card-img-top" alt="" />
+        </a>
         <div class="card-body">
-          <h5 class="card-title">{{ food.foodName }}</h5>
+          <a
+            routerLink="/food/details/{{ food.foodID }}"
+            routerLinkActive="router-link-active"
+          >
+            <h5 class="card-title">{{ food.foodName }}</h5>
+          </a>
           <p class="card-text">
             {{ food.description }}
           </p>
-          <button class="btn btn-primary">Add</button>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary">Add to cart</button>
         </div>
       </div>
     </div>

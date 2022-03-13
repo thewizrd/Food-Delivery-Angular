@@ -6,6 +6,7 @@ import { HeaderComponent } from './header/header.component';
 import { LandingComponent } from './landing/landing.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { LoginComponent } from './login/login.component';
     FooterComponent,
     LoginComponent,
   ],
-  imports: [CommonModule, CoreRoutingModule],
+  imports: [CommonModule, CoreRoutingModule, FormsModule],
   exports: [
     // lists out components to be exported (to the outside world; ~= public)
     HeaderComponent,

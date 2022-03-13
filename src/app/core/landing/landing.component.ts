@@ -1,21 +1,33 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IFood } from 'src/app/interfaces/ifood';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { IFoodResponse } from 'src/app/interfaces/ifood-response';
+import { AuthService } from 'src/app/services/auth.service';
 import { FoodService } from 'src/app/services/food.service';
 
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css'],
-  providers: [FoodService],
 })
 export class LandingComponent implements OnInit {
-  foods: IFood[] = [];
+  foods: IFoodResponse[] = [];
   foodTypes: string[] = [];
+  selectedFoodType: string = 'All';
   errorMsg: string = '';
+  message: string = '';
 
-  constructor(private _foodService: FoodService) {}
+  constructor(
+    private _router: Router,
+    private _foodService: FoodService,
+    private _authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    if (this._authService.isAdmin()) {
+      this._router.navigate(['/admin/dashboard']);
+      return;
+    }
+
     this._foodService.getAllFoods().subscribe({
       next: (result) => {
         this.errorMsg = '';
@@ -66,5 +78,9 @@ export class LandingComponent implements OnInit {
         },
       });
     }
+  }
+
+  onClickItem(food: IFoodResponse) {
+    this._router.navigate(['/food/details', food.foodID]);
   }
 }

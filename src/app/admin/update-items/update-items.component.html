@@ -1,0 +1,87 @@
+<div class="container">
+  <button
+    type="button"
+    class="btn btn-link text-decoration-none"
+    (click)="onBackClicked()"
+  >
+    &lt; Back
+  </button>
+  <div class="text-center">
+    <h2>Add Food Item</h2>
+  </div>
+  <div *ngIf="errorMsg" class="alert alert-danger" role="alert">
+    {{ errorMsg }}
+  </div>
+  <form (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="foodName">Food Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="foodName"
+          name="foodName"
+          [(ngModel)]="foodForm.foodName"
+          required
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="foodCost">Food Cost</label>
+        <div class="input-group">
+          <span class="input-group-text" id="basic-addon1">$</span>
+          <input
+            type="number"
+            class="form-control"
+            id="foodCost"
+            name="foodCost"
+            min="0"
+            [(ngModel)]="foodForm.foodCost"
+            required
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col mb-3">
+        <label for="description">Description</label>
+        <textarea
+          class="form-control"
+          id="description"
+          name="description"
+          [(ngModel)]="foodForm.description"
+          required
+        ></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="foodPic">Food Pic URL</label>
+        <input
+          type="text"
+          class="form-control"
+          id="foodPic"
+          name="foodPic"
+          [(ngModel)]="foodForm.foodPic"
+          required
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="foodType">Food Category</label>
+        <select
+          class="form-select"
+          id="foodType"
+          name="foodType"
+          aria-label=".form-select example"
+          [(ngModel)]="foodForm.foodType"
+          required
+        >
+          <option disabled selected value="UNKNOWN">Select a category</option>
+          <option *ngFor="let foodType of foodTypes" [ngValue]="foodType">
+            {{ foodType | titlecase }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-lg btn-block" type="submit">Save</button>
+  </form>
+</div>

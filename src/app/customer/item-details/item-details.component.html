@@ -1,0 +1,41 @@
+<main class="container">
+  <div *ngIf="!foodItem">
+    <div class="alert alert-danger" role="alert">Food item not available</div>
+  </div>
+  <div *ngIf="foodItem" class="food-container center">
+    <div class="row">
+      <div class="col-md-6 order-md-1">
+        <img
+          [src]="foodItem.foodPic"
+          class="img-fluid mx-auto"
+          alt=""
+          width="500"
+          height="500"
+        />
+      </div>
+      <div class="col-md-6 order-md-2">
+        <div class="row mt-3">
+          <div class="col">
+            <h3>{{ foodItem.foodName }}</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p>Category: {{ foodItem.foodType | titlecase }}</p>
+          </div>
+          <div class="col">
+            <p>Price: {{ foodItem.foodCost | currency: "USD" }}</p>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col">
+            <button class="btn btn-primary">Add</button>
+          </div>
+        </div>
+        <div class="row">
+          <p>{{ foodItem.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

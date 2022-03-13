@@ -13,19 +13,33 @@
     </a>
 
     <ul class="nav nav-pills">
-      <li class="nav-item">
+      <li *ngIf="!isAdmin" class="nav-item">
         <a href="#" routerLink="cart" class="nav-link">
           <span class="material-icons-outlined"> shopping_cart </span>
         </a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="!loggedIn" class="nav-item">
         <a href="#" routerLink="register" class="nav-link">Register</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="!loggedIn" class="nav-item">
         <a href="#" routerLink="login" class="nav-link">Login</a>
       </li>
-      <li class="nav-item">
-        <a href="#" routerLink="logout" class="nav-link">Logout</a>
+      <li *ngIf="loggedIn && userEmail" class="nav-item">
+        <a class="nav-link">
+          <div style="display: flex">
+            <span
+              *ngIf="isAdmin"
+              class="material-icons-outlined"
+              style="margin-right: 4px"
+            >
+              admin_panel_settings
+            </span>
+            <p>{{ userEmail }}</p>
+          </div>
+        </a>
+      </li>
+      <li *ngIf="loggedIn" class="nav-item">
+        <a href="#" class="nav-link" (click)="logout()">Logout</a>
       </li>
     </ul>
   </header>

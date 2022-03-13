@@ -1,0 +1,86 @@
+<div class="container">
+  <div
+    class="alert alert-danger alert-dismissible fade show"
+    role="alert"
+    *ngIf="errorMsg"
+  >
+    {{ errorMsg }}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div
+    class="alert alert-primary alert-dismissible fade show"
+    role="alert"
+    *ngIf="message"
+  >
+    {{ message }}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-primary" (click)="onClickAddItem()">
+        Add Food Item
+      </button>
+    </div>
+    <div class="col">
+      <div class="dropdown text-end">
+        <button
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          id="foodTypeMenuButton"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <span *ngIf="selectedFoodType == 'All'">Food Category</span>
+          <span *ngIf="selectedFoodType != 'All'">{{
+            selectedFoodType | titlecase
+          }}</span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="foodTypeMenuButton">
+          <li *ngFor="let foodType of foodTypes">
+            <button
+              class="dropdown-item"
+              [attr.data-value]="foodType"
+              (click)="foodTypeSelected($event)"
+            >
+              {{ foodType | titlecase }}
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="row text-center">
+    <div *ngFor="let food of foods" class="col-md-4 col-sm-6 col-12 mt-3">
+      <div class="card h-100">
+        <a
+          routerLink="/admin/food/details/{{ food.foodID }}"
+          routerLinkActive="router-link-active"
+        >
+          <img [src]="food.foodPic" class="card-img-top" alt="" />
+        </a>
+        <div class="card-body">
+          <a
+            routerLink="/admin/food/details/{{ food.foodID }}"
+            routerLinkActive="router-link-active"
+          >
+            <h5 class="card-title">{{ food.foodName }}</h5>
+          </a>
+          <p class="card-text">
+            {{ food.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,8 @@
 import { FoodTypes } from './food-types';
 
 export interface IFood {
-  foodID: number;
   foodName: string;
-  foodCost: number;
+  foodCost: number | undefined;
   foodType: FoodTypes;
   description: string;
   foodPic: string;

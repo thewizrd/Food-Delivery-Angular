@@ -1,22 +1,46 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { AdminRoutingModule } from './admin/admin-routing.module';
+import { AdminModule } from './admin/admin.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CoreRoutingModule } from './core/core-routing.module';
 import { CoreModule } from './core/core.module';
+import { CustomerRoutingModule } from './customer/customer-routing.module';
+import { CustomerModule } from './customer/customer.module';
+import { AuthService } from './services/auth.service';
+import { TokenStorageService } from './services/token-storage.service';
+import { AuthInterceptor } from './utils/auth-interceptor';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
+
     CoreModule,
+    CoreRoutingModule,
+
+    CustomerModule,
+    CustomerRoutingModule,
+
+    AdminModule,
+    AdminRoutingModule,
+
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent, CoreModule],
 })
 export class AppModule {}

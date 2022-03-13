@@ -1,6 +1,12 @@
-<body class="text-center">
-  <main class="form-signin">
-    <form>
+<div class="main-content text-center">
+  <div class="form-signin">
+    <div *ngIf="errorMsg" class="alert alert-danger" role="alert">
+      {{ errorMsg }}
+    </div>
+    <div *ngIf="message" class="alert alert-primary" role="alert">
+      {{ message }}
+    </div>
+    <form (submit)="login()">
       <h1 class="h3 mb-3 fw-normal">Login</h1>
 
       <div class="form-floating">
@@ -8,7 +14,9 @@
           type="email"
           class="form-control"
           id="floatingInput"
+          name="email"
           placeholder="name@example.com"
+          [(ngModel)]="loginForm.email"
         />
         <label for="floatingInput">Email address</label>
       </div>
@@ -18,6 +26,8 @@
           class="form-control"
           id="floatingPassword"
           placeholder="Password"
+          name="password"
+          [(ngModel)]="loginForm.password"
         />
         <label for="floatingPassword">Password</label>
       </div>
@@ -26,5 +36,5 @@
         <a routerLink="/forgotPassword">Forgot password?</a>
       </div>
     </form>
-  </main>
-</body>
+  </div>
+</div>

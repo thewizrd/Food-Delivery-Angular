@@ -1,12 +1,12 @@
 import { IAddress } from '../interfaces/iaddress';
 
 export class Address implements IAddress {
-  houseNo: number;
+  houseNo: number | undefined;
   street: string;
   city: string;
   state: string;
   country: string;
-  zipCode: number;
+  zipCode: number | undefined;
 
   constructor(
     houseNo: number,

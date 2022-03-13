@@ -12,25 +12,25 @@ export class FoodService {
 
   addFood(food: IFood): Observable<IFoodResponse> {
     return this._httpClient
-      .post<IFood>(this.baseUrl, food)
+      .post<IFoodResponse>(this.baseUrl, food)
       .pipe(catchError(this.errorHandler));
   }
 
   getFoodByID(foodID: number): Observable<IFoodResponse> {
     return this._httpClient
-      .get<IFood>(this.baseUrl + 'get/id/' + foodID)
+      .get<IFoodResponse>(this.baseUrl + 'get/id/' + foodID)
       .pipe(catchError(this.errorHandler));
   }
 
   updateFood(id: number, food: IFood): Observable<IFoodResponse> {
     return this._httpClient
-      .post<IFood>(this.baseUrl + 'id/' + id, food)
+      .put<IFoodResponse>(this.baseUrl + 'id/' + id, food)
       .pipe(catchError(this.errorHandler));
   }
 
   getAllFoods(): Observable<IFoodResponse[]> {
     return this._httpClient
-      .get<IFood[]>(this.baseUrl + 'get')
+      .get<IFoodResponse[]>(this.baseUrl + 'get')
       .pipe(catchError(this.errorHandler));
   }
 
@@ -42,7 +42,7 @@ export class FoodService {
 
   getFoodsByType(foodType: string): Observable<IFoodResponse[]> {
     return this._httpClient
-      .get<IFood[]>(this.baseUrl + 'get/foodType/' + foodType)
+      .get<IFoodResponse[]>(this.baseUrl + 'get/foodType/' + foodType)
       .pipe(catchError(this.errorHandler));
   }
 
