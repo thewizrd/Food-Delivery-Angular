@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
-import { ICustomerResponse } from '../interfaces/icustomer-response';
-import { IRegister } from '../interfaces/iregister';
-import { ICartStatusResponse } from '../interfaces/icart-status-response';
-import { ICart } from '../interfaces/icart';
+import { CustomerResponse } from '../interfaces/customer-response';
+import { CustomerRegistrationRequest } from '../models/customer-registration-request';
+import { request } from 'http';
+import { CartStatusResponse } from '../interfaces/cart-status-response';
+import { CartUpdateRequest } from '../models/cart-update-request';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
@@ -12,21 +13,24 @@ export class CustomerService {
 
   constructor(private _httpClient: HttpClient) {}
 
-  getAllUsers(): Observable<ICustomerResponse[]> {
+  getAllUsers(): Observable<CustomerResponse[]> {
     return this._httpClient
-      .get<ICustomerResponse[]>(this.baseUrl)
+      .get<CustomerResponse[]>(this.baseUrl)
       .pipe(catchError(this.errorHandler));
   }
 
-  getUserByID(id: number): Observable<ICustomerResponse> {
+  getUserByID(id: number): Observable<CustomerResponse> {
     return this._httpClient
-      .get<ICustomerResponse>(this.baseUrl + id)
+      .get<CustomerResponse>(this.baseUrl + id)
       .pipe(catchError(this.errorHandler));
   }
 
-  updateUser(id: number, user: IRegister): Observable<ICustomerResponse> {
+  updateUser(
+    id: number,
+    requ: CustomerRegistrationRequest
+  ): Observable<CustomerResponse> {
     return this._httpClient
-      .post<ICustomerResponse>(this.baseUrl + id, user)
+      .post<CustomerResponse>(this.baseUrl + id, request)
       .pipe(catchError(this.errorHandler));
   }
 
@@ -36,21 +40,24 @@ export class CustomerService {
       .pipe(catchError(this.errorHandler));
   }
 
-  getUserCart(id: number): Observable<ICartStatusResponse> {
+  getUserCart(id: number): Observable<CartStatusResponse> {
     return this._httpClient
-      .get<ICartStatusResponse>(this.baseUrl + id + '/cart')
+      .get<CartStatusResponse>(this.baseUrl + id + '/cart')
       .pipe(catchError(this.errorHandler));
   }
 
-  updateUserCart(id: number, request: ICart): Observable<ICartStatusResponse> {
+  updateUserCart(
+    id: number,
+    request: CartUpdateRequest
+  ): Observable<CartStatusResponse> {
     return this._httpClient
-      .put<ICartStatusResponse>(this.baseUrl + id + '/cart', request)
+      .put<CartStatusResponse>(this.baseUrl + id + '/cart', request)
       .pipe(catchError(this.errorHandler));
   }
 
-  checkoutUserCart(id: number): Observable<ICartStatusResponse> {
+  checkoutUserCart(id: number): Observable<CartStatusResponse> {
     return this._httpClient
-      .put<ICartStatusResponse>(this.baseUrl + id + '/cart/checkout', {})
+      .put<CartStatusResponse>(this.baseUrl + id + '/cart/checkout', {})
       .pipe(catchError(this.errorHandler));
   }
 

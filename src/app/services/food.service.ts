@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { IFood } from '../interfaces/ifood';
 import { catchError, Observable, throwError } from 'rxjs';
-import { IFoodResponse } from '../interfaces/ifood-response';
+import { FoodRequest } from '../models/food-request';
+import { FoodResponse } from '../interfaces/food-response';
 
 @Injectable({ providedIn: 'root' })
 export class FoodService {
@@ -10,39 +10,33 @@ export class FoodService {
 
   constructor(private _httpClient: HttpClient) {}
 
-  addFood(food: IFood): Observable<IFoodResponse> {
+  addFood(food: FoodRequest): Observable<FoodResponse> {
     return this._httpClient
-      .post<IFoodResponse>(this.baseUrl, food)
+      .post<FoodResponse>(this.baseUrl, food)
       .pipe(catchError(this.errorHandler));
   }
 
-  getFoodByID(foodID: number): Observable<IFoodResponse> {
+  getFoodByID(foodID: number): Observable<FoodResponse> {
     return this._httpClient
-      .get<IFoodResponse>(this.baseUrl + 'get/id/' + foodID)
+      .get<FoodResponse>(this.baseUrl + 'get/id/' + foodID)
       .pipe(catchError(this.errorHandler));
   }
 
-  updateFood(id: number, food: IFood): Observable<IFoodResponse> {
+  updateFood(id: number, food: FoodRequest): Observable<FoodResponse> {
     return this._httpClient
-      .put<IFoodResponse>(this.baseUrl + 'id/' + id, food)
+      .put<FoodResponse>(this.baseUrl + 'id/' + id, food)
       .pipe(catchError(this.errorHandler));
   }
 
-  getAllFoods(): Observable<IFoodResponse[]> {
+  getAllFoods(): Observable<FoodResponse[]> {
     return this._httpClient
-      .get<IFoodResponse[]>(this.baseUrl + 'get')
+      .get<FoodResponse[]>(this.baseUrl + 'get')
       .pipe(catchError(this.errorHandler));
   }
 
-  getFoodTypes(): Observable<string[]> {
+  getFoodsByType(foodType: string): Observable<FoodResponse[]> {
     return this._httpClient
-      .get<string[]>(this.baseUrl + 'get/foodType')
-      .pipe(catchError(this.errorHandler));
-  }
-
-  getFoodsByType(foodType: string): Observable<IFoodResponse[]> {
-    return this._httpClient
-      .get<IFoodResponse[]>(this.baseUrl + 'get/foodType/' + foodType)
+      .get<FoodResponse[]>(this.baseUrl + 'get/foodType/' + foodType)
       .pipe(catchError(this.errorHandler));
   }
 

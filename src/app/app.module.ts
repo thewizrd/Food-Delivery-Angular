@@ -11,9 +11,8 @@ import { CoreRoutingModule } from './core/core-routing.module';
 import { CoreModule } from './core/core.module';
 import { CustomerRoutingModule } from './customer/customer-routing.module';
 import { CustomerModule } from './customer/customer.module';
-import { AuthService } from './services/auth.service';
-import { TokenStorageService } from './services/token-storage.service';
 import { AuthInterceptor } from './utils/auth-interceptor';
+import { JwtInterceptor } from './utils/jwt-interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,6 +37,11 @@ import { AuthInterceptor } from './utils/auth-interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
       multi: true,
     },
   ],

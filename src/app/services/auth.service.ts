@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { IRegister } from '../interfaces/iregister';
-import { ICustomerResponse } from '../interfaces/icustomer-response';
-import { ILogin } from '../interfaces/ilogin';
-import { IJwtResponse } from '../interfaces/ijwt-response';
 import { TokenStorageService } from './token-storage.service';
+import { JwtResponse } from '../interfaces/jwt-response';
+import { CustomerRegistrationRequest } from '../models/customer-registration-request';
+import { CustomerResponse } from '../interfaces/customer-response';
+import { LoginRequest } from '../models/login-request';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private baseUrl = 'http://localhost:8080/api/auth/';
-  private userDetails: BehaviorSubject<IJwtResponse | null> =
-    new BehaviorSubject<IJwtResponse | null>(
+  private userDetails: BehaviorSubject<JwtResponse | null> =
+    new BehaviorSubject<JwtResponse | null>(
       this._tokenService.getTokenResponse()
     );
 
@@ -21,15 +21,17 @@ export class AuthService {
     private _httpClient: HttpClient
   ) {}
 
-  createUser(request: IRegister): Observable<ICustomerResponse[]> {
+  createUser(
+    request: CustomerRegistrationRequest
+  ): Observable<CustomerResponse> {
     return this._httpClient
-      .post<ICustomerResponse[]>(this.baseUrl + 'register', request)
+      .post<CustomerResponse>(this.baseUrl + 'register', request)
       .pipe(catchError(this.errorHandler));
   }
 
-  loginUser(request: ILogin): Observable<IJwtResponse> {
+  loginUser(request: LoginRequest): Observable<JwtResponse> {
     return this._httpClient
-      .post<IJwtResponse>(this.baseUrl + 'login', request)
+      .post<JwtResponse>(this.baseUrl + 'login', request)
       .pipe(tap((value) => this.setSession(value)))
       .pipe(catchError(this.errorHandler));
   }
@@ -54,11 +56,11 @@ export class AuthService {
     return false;
   }
 
-  getUserDetails(): Observable<IJwtResponse | null> {
+  getUserDetails(): Observable<JwtResponse | null> {
     return this.userDetails.asObservable();
   }
 
-  private setSession(response: IJwtResponse) {
+  private setSession(response: JwtResponse) {
     console.log('logged in; set session');
     this._tokenService.saveToken(response);
     this.userDetails.next(response);

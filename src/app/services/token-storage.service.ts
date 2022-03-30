@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IJwtResponse } from '../interfaces/ijwt-response';
+import { JwtResponse } from '../interfaces/jwt-response';
 
 const TOKEN_KEY = 'jwt-token';
 const TOKEN_RESP_KEY = 'token-resp';
@@ -15,7 +15,7 @@ export class TokenStorageService {
     localStorage.removeItem(TOKEN_RESP_KEY);
   }
 
-  public saveToken(jwtToken: IJwtResponse) {
+  public saveToken(jwtToken: JwtResponse) {
     localStorage.setItem(TOKEN_KEY, jwtToken.token);
     localStorage.setItem(TOKEN_RESP_KEY, JSON.stringify(jwtToken));
   }
@@ -24,7 +24,7 @@ export class TokenStorageService {
     return localStorage.getItem(TOKEN_KEY);
   }
 
-  public getTokenResponse(): IJwtResponse | null {
+  public getTokenResponse(): JwtResponse | null {
     const resp = localStorage.getItem(TOKEN_RESP_KEY);
 
     if (resp) {
