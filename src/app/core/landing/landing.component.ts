@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IFoodResponse } from 'src/app/interfaces/ifood-response';
+import { FoodTypes } from 'src/app/enums/food-types';
+import { CartStatusResponse } from 'src/app/interfaces/cart-status-response';
+import { FoodResponse } from 'src/app/interfaces/food-response';
+import { CartUpdateRequest } from 'src/app/models/cart-update-request';
 import { AuthService } from 'src/app/services/auth.service';
+import { CustomerService } from 'src/app/services/customer.service';
 import { FoodService } from 'src/app/services/food.service';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-landing',
@@ -10,16 +15,21 @@ import { FoodService } from 'src/app/services/food.service';
   styleUrls: ['./landing.component.css'],
 })
 export class LandingComponent implements OnInit {
-  foods: IFoodResponse[] = [];
+  cart: CartStatusResponse | undefined = undefined;
+  foods: FoodResponse[] = [];
   foodTypes: string[] = [];
   selectedFoodType: string = 'All';
+
   errorMsg: string = '';
   message: string = '';
 
   constructor(
+    private _ref: ChangeDetectorRef,
     private _router: Router,
     private _foodService: FoodService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _customerService: CustomerService,
+    private _cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -27,6 +37,15 @@ export class LandingComponent implements OnInit {
       this._router.navigate(['/admin/dashboard']);
       return;
     }
+
+    this._cartService.getCartDetails().subscribe({
+      next: (result) => {
+        this.cart = result;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
 
     this._foodService.getAllFoods().subscribe({
       next: (result) => {
@@ -38,18 +57,7 @@ export class LandingComponent implements OnInit {
       },
     });
 
-    this._foodService.getFoodTypes().subscribe({
-      next: (result) => {
-        this.errorMsg = '';
-
-        var tmp = ['All'];
-        tmp.push(...result);
-        this.foodTypes = tmp;
-      },
-      error: (err) => {
-        this.errorMsg = err.message;
-      },
-    });
+    this.foodTypes = ['All'].concat(Object.values(FoodTypes));
   }
 
   foodTypeSelected(event: any) {
@@ -80,7 +88,42 @@ export class LandingComponent implements OnInit {
     }
   }
 
-  onClickItem(food: IFoodResponse) {
+  onClickItem(food: FoodResponse) {
     this._router.navigate(['/food/details', food.foodID]);
+  }
+
+  addToCart(foodID: number) {
+    this._cartService.addToUserCart(foodID).subscribe({
+      next: (result) => {
+        this.cart = result;
+      },
+      error: (err) => {
+        alert('Unable to add to cart');
+        console.log(err);
+      },
+    });
+  }
+
+  removeFromCart(foodID: number) {
+    this._cartService.removeFromUserCart(foodID).subscribe({
+      next: (result) => {
+        this.cart = result;
+      },
+      error: (err) => {
+        alert('Unable to remove from cart');
+        console.log(err);
+      },
+    });
+  }
+
+  isPresentInCart(
+    cart: CartStatusResponse | undefined,
+    foodID: number
+  ): boolean {
+    if (cart) {
+      return cart.cart.map((food) => food.foodID).includes(foodID);
+    }
+
+    return false;
   }
 }

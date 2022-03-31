@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { FoodRequest } from '../models/food-request';
 import { FoodResponse } from '../interfaces/food-response';
+import { CartUpdateRequest } from '../models/cart-update-request';
 
 @Injectable({ providedIn: 'root' })
 export class FoodService {
@@ -25,6 +26,12 @@ export class FoodService {
   updateFood(id: number, food: FoodRequest): Observable<FoodResponse> {
     return this._httpClient
       .put<FoodResponse>(this.baseUrl + 'id/' + id, food)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  getCartDetails(request: CartUpdateRequest): Observable<FoodResponse[]> {
+    return this._httpClient
+      .post<FoodResponse[]>(this.baseUrl + 'get/cart', request)
       .pipe(catchError(this.errorHandler));
   }
 

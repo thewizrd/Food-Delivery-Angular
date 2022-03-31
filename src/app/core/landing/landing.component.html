@@ -57,9 +57,31 @@
           <p class="card-text">
             {{ food.description }}
           </p>
+          <p class="card-text fs-5 fw-bold">
+            {{ food.foodCost | currency: "USD" }}
+          </p>
         </div>
         <div class="card-footer">
-          <button class="btn btn-primary">Add to cart</button>
+          <div
+            *ngIf="
+              isPresentInCart(cart, food.foodID);
+              then incart;
+              else notincart
+            "
+          ></div>
+          <ng-template #notincart>
+            <button class="btn btn-primary" (click)="addToCart(food.foodID)">
+              Add to cart
+            </button>
+          </ng-template>
+          <ng-template #incart>
+            <button
+              class="btn btn-danger"
+              (click)="removeFromCart(food.foodID)"
+            >
+              Remove from cart
+            </button>
+          </ng-template>
         </div>
       </div>
     </div>

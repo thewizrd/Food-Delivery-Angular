@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Register } from 'src/app/models/register';
 import { AuthService } from 'src/app/services/auth.service';
 import * as $ from 'jquery';
 import { formatDate } from '@angular/common';
+import { CustomerRegistrationRequest } from 'src/app/models/customer-registration-request';
 
 @Component({
   selector: 'app-register',
@@ -11,23 +11,7 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  registerForm: Register = new Register(
-    '',
-    '',
-    '',
-    [
-      {
-        houseNo: undefined,
-        street: '',
-        city: '',
-        state: '',
-        country: '',
-        zipCode: undefined,
-      },
-    ],
-    formatDate(new Date(), 'yyyy-MM-dd', 'en_US'),
-    ['user']
-  );
+  registerForm = new CustomerRegistrationRequest();
   errorMsg: string = '';
 
   constructor(private _authService: AuthService, private _router: Router) {}

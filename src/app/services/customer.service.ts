@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { CustomerResponse } from '../interfaces/customer-response';
 import { CustomerRegistrationRequest } from '../models/customer-registration-request';
-import { request } from 'http';
 import { CartStatusResponse } from '../interfaces/cart-status-response';
 import { CartUpdateRequest } from '../models/cart-update-request';
 
@@ -27,7 +26,7 @@ export class CustomerService {
 
   updateUser(
     id: number,
-    requ: CustomerRegistrationRequest
+    request: CustomerRegistrationRequest
   ): Observable<CustomerResponse> {
     return this._httpClient
       .post<CustomerResponse>(this.baseUrl + id, request)
@@ -52,6 +51,39 @@ export class CustomerService {
   ): Observable<CartStatusResponse> {
     return this._httpClient
       .put<CartStatusResponse>(this.baseUrl + id + '/cart', request)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  batchAddToUserCart(
+    id: number,
+    request: CartUpdateRequest
+  ): Observable<CartStatusResponse> {
+    return this._httpClient
+      .put<CartStatusResponse>(this.baseUrl + id + '/cart/add', request)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  addToUserCart(
+    userID: number,
+    foodID: number
+  ): Observable<CartStatusResponse> {
+    return this._httpClient
+      .put<CartStatusResponse>(
+        this.baseUrl + userID + '/cart/add/' + foodID,
+        {}
+      )
+      .pipe(catchError(this.errorHandler));
+  }
+
+  removeFromUserCart(
+    userID: number,
+    foodID: number
+  ): Observable<CartStatusResponse> {
+    return this._httpClient
+      .put<CartStatusResponse>(
+        this.baseUrl + userID + '/cart/remove/' + foodID,
+        {}
+      )
       .pipe(catchError(this.errorHandler));
   }
 

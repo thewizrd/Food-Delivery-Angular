@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FoodTypes } from 'src/app/interfaces/food-types';
-import { Food } from 'src/app/models/food';
+import { FoodTypes } from 'src/app/enums/food-types';
+import { FoodRequest } from 'src/app/models/food-request';
 import { FoodService } from 'src/app/services/food.service';
 
 @Component({
@@ -12,12 +12,8 @@ import { FoodService } from 'src/app/services/food.service';
 export class UpdateItemsComponent implements OnInit {
   errorMsg: string = '';
   foodID: number = 0;
-  foodForm: Food = new Food('', undefined, FoodTypes.Unknown, '', '');
-  foodTypes: FoodTypes[] = Object.entries(FoodTypes)
-    .map((foodType) => {
-      return foodType[1];
-    })
-    .filter((foodType) => foodType != FoodTypes.Unknown);
+  foodForm = new FoodRequest();
+  foodTypes = Object.values(FoodTypes);
 
   constructor(
     private _route: ActivatedRoute,
@@ -28,13 +24,8 @@ export class UpdateItemsComponent implements OnInit {
   ngOnInit(): void {
     this.foodID = this._route.snapshot.params['foodID'];
     this._foodService.getFoodByID(this.foodID).subscribe((food) => {
-      this.foodForm = new Food(
-        food.foodName,
-        food.foodCost,
-        food.foodType as FoodTypes,
-        food.description,
-        food.foodPic
-      );
+      this.foodForm = new FoodRequest();
+      this.foodForm.updateFromResponse(food);
     });
   }
 

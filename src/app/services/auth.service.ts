@@ -60,6 +60,10 @@ export class AuthService {
     return this.userDetails.asObservable();
   }
 
+  getTokenResponse(): JwtResponse | null {
+    return this._tokenService.getTokenResponse();
+  }
+
   private setSession(response: JwtResponse) {
     console.log('logged in; set session');
     this._tokenService.saveToken(response);

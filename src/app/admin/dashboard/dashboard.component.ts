@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IFoodResponse } from 'src/app/interfaces/ifood-response';
+import { FoodTypes } from 'src/app/enums/food-types';
+import { FoodResponse } from 'src/app/interfaces/food-response';
 import { FoodService } from 'src/app/services/food.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { FoodService } from 'src/app/services/food.service';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  foods: IFoodResponse[] = [];
+  foods: FoodResponse[] = [];
   foodTypes: string[] = [];
   selectedFoodType: string = 'All';
   errorMsg: string = '';
@@ -31,18 +32,7 @@ export class DashboardComponent implements OnInit {
       },
     });
 
-    this._foodService.getFoodTypes().subscribe({
-      next: (result) => {
-        this.errorMsg = '';
-
-        var tmp = ['All'];
-        tmp.push(...result);
-        this.foodTypes = tmp;
-      },
-      error: (err) => {
-        this.errorMsg = err.message;
-      },
-    });
+    this.foodTypes = ['All'].concat(Object.values(FoodTypes));
   }
 
   foodTypeSelected(event: any) {
@@ -73,7 +63,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onClickItem(food: IFoodResponse) {
+  onClickItem(food: FoodResponse) {
     this._router.navigate(['/food/details', food.foodID]);
   }
 

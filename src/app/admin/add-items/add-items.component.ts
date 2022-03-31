@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FoodTypes } from 'src/app/interfaces/food-types';
-import { Food } from 'src/app/models/food';
+import { FoodTypes } from 'src/app/enums/food-types';
+import { FoodRequest } from 'src/app/models/food-request';
 import { FoodService } from 'src/app/services/food.service';
 
 @Component({
@@ -11,12 +11,8 @@ import { FoodService } from 'src/app/services/food.service';
 })
 export class AddItemsComponent implements OnInit {
   errorMsg: string = '';
-  foodForm: Food = new Food('', undefined, FoodTypes.Unknown, '', '');
-  foodTypes: FoodTypes[] = Object.entries(FoodTypes)
-    .map((foodType) => {
-      return foodType[1];
-    })
-    .filter((foodType) => foodType != FoodTypes.Unknown);
+  foodForm = new FoodRequest();
+  foodTypes: FoodTypes[] = Object.values(FoodTypes);
 
   constructor(private _router: Router, private _foodService: FoodService) {}
 

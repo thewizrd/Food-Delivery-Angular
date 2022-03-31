@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IFoodResponse } from 'src/app/interfaces/ifood-response';
+import { FoodResponse } from 'src/app/interfaces/food-response';
 import { FoodService } from 'src/app/services/food.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { FoodService } from 'src/app/services/food.service';
 })
 export class ItemDetailsComponent implements OnInit {
   foodID: number = 0;
-  foodItem: IFoodResponse | undefined;
+  foodItem: FoodResponse | undefined;
 
   constructor(
     private _route: ActivatedRoute,

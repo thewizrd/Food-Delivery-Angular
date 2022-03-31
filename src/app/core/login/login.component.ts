@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Login } from 'src/app/models/login';
+import { Router } from '@angular/router';
+import { LoginRequest } from 'src/app/models/login-request';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +9,7 @@ import { Login } from 'src/app/models/login';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  loginForm: Login = new Login('', '');
+  loginForm = new LoginRequest();
   message: string = '';
   errorMsg: string = '';
 

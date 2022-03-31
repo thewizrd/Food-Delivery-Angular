@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -16,11 +17,12 @@ export class HeaderComponent implements OnInit {
   loggedIn: boolean = false;
   userEmail: string | null = null;
   isAdmin: boolean = false;
+  cartCount: number = 0;
 
   constructor(
     private _router: Router,
-    private _cd: ChangeDetectorRef,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +37,15 @@ export class HeaderComponent implements OnInit {
         this.userEmail = jwtToken.email;
         this.isAdmin = jwtToken.roles.includes('ROLE_ADMIN');
       }
+    });
+
+    this._cartService.getCartCount().subscribe({
+      next: (result) => {
+        this.cartCount = result;
+      },
+      error: (err) => {
+        console.log(err);
+      },
     });
   }
 
