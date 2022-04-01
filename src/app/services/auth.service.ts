@@ -7,6 +7,7 @@ import { JwtResponse } from '../interfaces/jwt-response';
 import { CustomerRegistrationRequest } from '../models/customer-registration-request';
 import { CustomerResponse } from '../interfaces/customer-response';
 import { LoginRequest } from '../models/login-request';
+import { CartService } from './cart.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

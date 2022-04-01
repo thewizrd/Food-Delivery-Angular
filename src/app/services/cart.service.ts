@@ -22,6 +22,18 @@ export class CartService {
     private _foodService: FoodService
   ) {
     this.localCart = new Set<number>(this.getLocalCart().cart);
+
+    this._authService.getUserDetails().subscribe({
+      next: (result) => {
+        if (
+          result &&
+          result.roles.includes('ROLE_USER') &&
+          this.localCart.size > 0
+        ) {
+          this.mergeLocalCart();
+        }
+      },
+    });
   }
 
   private clearLocalCart() {
@@ -126,6 +138,7 @@ export class CartService {
 
   getCartDetails(): Observable<CartStatusResponse> {
     if (this._authService.isLoggedIn()) {
+      console.log('Logged in');
       const tokenResp = this._authService.getTokenResponse();
 
       if (tokenResp) {
@@ -137,7 +150,7 @@ export class CartService {
 
       throw new Error('Unable to get user id');
     } else {
-      console.log(this.localCart);
+      console.log('Logged out');
 
       return this._foodService
         .getCartDetails(this.getLocalCartRequest())

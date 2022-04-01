@@ -1,1 +1,94 @@
-<p>cart works!</p>
+<div class="container">
+  <div class="row g-5">
+    <div class="col-md-7 col-lg-8">
+      <h3>Cart</h3>
+      <br />
+      <div *ngIf="!cart || cart.cart.length == 0">
+        <div class="alert alert-info" role="alert">Shopping cart is empty</div>
+      </div>
+      <div *ngIf="cart && cart.cart && cart.cart.length > 0">
+        <div *ngFor="let cartItem of cart.cart" class="list-group">
+          <div class="list-group-item w-100">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <img
+                  [src]="cartItem.foodPic"
+                  class="img-fluid mx-auto"
+                  alt=""
+                  width="100"
+                  height="100"
+                />
+              </div>
+              <div class="col">
+                <span class="text-start align-middle fw-bold">
+                  {{ cartItem.foodName }}
+                </span>
+              </div>
+              <div class="col-auto">
+                <div class="row">
+                  <span class="fw-bold">
+                    {{ cartItem.foodCost | currency: "USD" }}
+                  </span>
+                </div>
+                <div class="row">
+                  <a
+                    class="btn remove-cart-btn link-danger fw-bold text-uppercase text-decoration-none"
+                    (click)="removeFromCart(cartItem.foodID)"
+                    >Remove</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-5 col-lg-4 order-md-last">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-primary">Order Summary</span>
+        <span
+          *ngIf="cart && cart.cart.length > 0"
+          class="badge bg-primary rounded-pill"
+          >{{ cart.cart.length }}</span
+        >
+      </h4>
+      <div class="card">
+        <div class="card-body">
+          <div class="row fw-bold">
+            <span class="col">Total</span>
+            <span class="col text-end">{{ cartTotal | currency: "USD" }}</span>
+          </div>
+          <br />
+          <div class="d-grid gap-2">
+            <div
+              *ngIf="
+                cart && cart.cart.length > 0;
+                then checkoutButton;
+                else dashButton
+              "
+            ></div>
+            <ng-template #dashButton>
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="continueShopping()"
+              >
+                Continue shopping
+              </button>
+            </ng-template>
+            <ng-template #checkoutButton>
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="checkout()"
+              >
+                Checkout
+              </button>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,5 @@ export class CustomerRegistrationRequest {
   password: string | null = null;
   name: string | null = null;
   address: AddressRequest[] = [];
-  doj: string | null = null;
   roles: string[] = ['user'];
 }

@@ -38,6 +38,21 @@ export class LandingComponent implements OnInit {
       return;
     }
 
+    this._authService.getUserDetails().subscribe({
+      next: (user) => {
+        if (user == null) {
+          this._cartService.getCartDetails().subscribe({
+            next: (result) => {
+              this.cart = result;
+            },
+            error: (err) => {
+              console.log(err);
+            },
+          });
+        }
+      },
+    });
+
     this._cartService.getCartDetails().subscribe({
       next: (result) => {
         this.cart = result;
