@@ -5,6 +5,7 @@ import { CustomerResponse } from '../interfaces/customer-response';
 import { CustomerRegistrationRequest } from '../models/customer-registration-request';
 import { CartStatusResponse } from '../interfaces/cart-status-response';
 import { CartUpdateRequest } from '../models/cart-update-request';
+import { CustomerUpdateRequest } from '../models/customer-update-request';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
@@ -26,10 +27,10 @@ export class CustomerService {
 
   updateUser(
     id: number,
-    request: CustomerRegistrationRequest
+    request: CustomerUpdateRequest
   ): Observable<CustomerResponse> {
     return this._httpClient
-      .post<CustomerResponse>(this.baseUrl + id, request)
+      .put<CustomerResponse>(this.baseUrl + id, request)
       .pipe(catchError(this.errorHandler));
   }
 

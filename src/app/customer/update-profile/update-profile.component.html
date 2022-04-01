@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="text-center">
+    <h2>Update Profile</h2>
+  </div>
+  <div *ngIf="errorMsg" class="alert alert-danger" role="alert">
+    {{ errorMsg }}
+  </div>
+  <form (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="email">Email</label>
+        <span class="form-control bg-light" id="email" name="email" disabled>
+          {{ emailAddr }}
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col mb-3">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          [(ngModel)]="profileForm.name"
+          required
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 mb-3">
+        <label for="houseNo">House No</label>
+        <input
+          type="number"
+          class="form-control"
+          id="houseNo"
+          name="houseNo"
+          min="0"
+          [(ngModel)]="profileForm.address[0].houseNo"
+          required
+        />
+      </div>
+      <div class="col mb-3">
+        <label for="streetName">Street Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="streetName"
+          name="streetName"
+          [(ngModel)]="profileForm.address[0].street"
+          required
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="city">City</label>
+        <input
+          type="text"
+          class="form-control"
+          id="city"
+          name="city"
+          [(ngModel)]="profileForm.address[0].city"
+          required
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="state">State</label>
+        <input
+          type="text"
+          class="form-control"
+          id="state"
+          name="state"
+          [(ngModel)]="profileForm.address[0].state"
+          required
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="country">Country</label>
+        <input
+          type="text"
+          class="form-control"
+          id="country"
+          name="country"
+          [(ngModel)]="profileForm.address[0].country"
+          required
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="zipCode">Zip Code</label>
+        <input
+          type="number"
+          class="form-control"
+          id="zipCode"
+          name="zipCode"
+          [(ngModel)]="profileForm.address[0].zipCode"
+          required
+        />
+      </div>
+    </div>
+    <br />
+    <div class="float-end mx-auto">
+      <button class="btn btn-primary" type="submit">Update Profile</button>
+    </div>
+  </form>
+</div>

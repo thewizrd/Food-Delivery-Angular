@@ -8,6 +8,7 @@ import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrdersComponent } from './orders/orders.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UpdateProfileComponent } from './update-profile/update-profile.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CartComponent,
     CheckoutComponent,
     OrdersComponent,
+    UpdateProfileComponent,
   ],
 })
 export class CustomerModule {}

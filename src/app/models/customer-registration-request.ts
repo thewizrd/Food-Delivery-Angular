@@ -6,4 +6,8 @@ export class CustomerRegistrationRequest {
   name: string | null = null;
   address: AddressRequest[] = [];
   roles: string[] = ['user'];
+
+  constructor() {
+    this.address.push(new AddressRequest());
+  }
 }
