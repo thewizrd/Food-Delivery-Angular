@@ -9,6 +9,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { OrdersComponent } from './orders/orders.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
+import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
     CheckoutComponent,
     OrdersComponent,
     UpdateProfileComponent,
+    OrderConfirmationComponent,
   ],
 })
 export class CustomerModule {}

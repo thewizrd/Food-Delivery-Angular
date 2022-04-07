@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="text-center">
+    <div class="alert alert-success" role="alert">
+      <p>
+        Thank you for placing an order. Your order will be delivered to you
+        shortly.
+      </p>
+
+      <p *ngIf="orderDetails">
+        <span
+          >{{ orderDetails.address.houseNo }}
+          {{ orderDetails.address.street }}</span
+        >
+        <br />
+        <span
+          >{{ orderDetails.address.city }}, {{ orderDetails.address.state }}
+          {{ orderDetails.address.zipCode }}</span
+        >
+        <br />
+        <span>{{ orderDetails.address.country }}</span>
+      </p>
+    </div>
+  </div>
+  <div class="card mb-4" *ngIf="orderDetails">
+    <div class="card-header">
+      <div class="row row-cols-3">
+        <div class="col text-start">Order #: {{ orderDetails.orderID }}</div>
+        <div class="col text-center">
+          <div class="text-uppercase" style="font-size: 12px">Order Placed</div>
+          <div>{{ orderDetails.orderDate | date: "MMMM dd, YYYY" }}</div>
+        </div>
+        <div class="col text-end">
+          <div class="text-uppercase" style="font-size: 12px">Order Total</div>
+          <div>{{ orderDetails.orderTotal | currency: "USD" }}</div>
+        </div>
+      </div>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let item of orderDetails.orderItems">
+        <div class="row row-cols-2">
+          <div class="col text-start">
+            <a [routerLink]="'/food/details/' + item.foodID">{{
+              item.foodName
+            }}</a>
+          </div>
+          <div class="col text-end">
+            {{ item.foodCost | currency: "USD" }}
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

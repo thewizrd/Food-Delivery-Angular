@@ -6,6 +6,7 @@ import { CustomerRegistrationRequest } from '../models/customer-registration-req
 import { CartStatusResponse } from '../interfaces/cart-status-response';
 import { CartUpdateRequest } from '../models/cart-update-request';
 import { CustomerUpdateRequest } from '../models/customer-update-request';
+import { OrdersResponse } from '../interfaces/orders-response';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
@@ -88,9 +89,15 @@ export class CustomerService {
       .pipe(catchError(this.errorHandler));
   }
 
-  checkoutUserCart(id: number): Observable<CartStatusResponse> {
+  checkoutUserCart(id: number): Observable<OrdersResponse> {
     return this._httpClient
-      .put<CartStatusResponse>(this.baseUrl + id + '/cart/checkout', {})
+      .put<OrdersResponse>(this.baseUrl + id + '/cart/checkout', {})
+      .pipe(catchError(this.errorHandler));
+  }
+
+  getUserOrders(id: number): Observable<OrdersResponse[]> {
+    return this._httpClient
+      .get<OrdersResponse[]>(this.baseUrl + id + '/orders')
       .pipe(catchError(this.errorHandler));
   }
 

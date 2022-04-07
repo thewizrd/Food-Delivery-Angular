@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { CartStatusResponse } from '../interfaces/cart-status-response';
 import { FoodResponse } from '../interfaces/food-response';
+import { OrdersResponse } from '../interfaces/orders-response';
 import { CartUpdateRequest } from '../models/cart-update-request';
 import { AuthService } from './auth.service';
 import { CustomerService } from './customer.service';
@@ -181,6 +182,18 @@ export class CartService {
             console.log(err);
           },
         });
+    }
+  }
+
+  checkoutUserCart(id: number): Observable<OrdersResponse> {
+    const tokenResp = this._authService.getTokenResponse();
+
+    if (tokenResp) {
+      return this._customerService
+        .checkoutUserCart(id)
+        .pipe(tap((result) => this.cartCount.next(0)));
+    } else {
+      throw new Error('User not logged in');
     }
   }
 

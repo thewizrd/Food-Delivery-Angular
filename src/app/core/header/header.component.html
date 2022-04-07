@@ -31,6 +31,9 @@
         <a href="#" routerLink="login" class="nav-link">Login</a>
       </li>
       <li *ngIf="loggedIn && !isAdmin" class="nav-item">
+        <a href="#" routerLink="orders" class="nav-link">Orders</a>
+      </li>
+      <li *ngIf="loggedIn && !isAdmin" class="nav-item">
         <a href="#" routerLink="profile" class="nav-link">Profile</a>
       </li>
       <li *ngIf="loggedIn && userEmail" class="nav-item">

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CartStatusResponse } from 'src/app/interfaces/cart-status-response';
 import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
+import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({
   selector: 'app-cart',
@@ -16,6 +17,7 @@ export class CartComponent implements OnInit {
   constructor(
     private _cartService: CartService,
     private _authService: AuthService,
+    private _customerService: CustomerService,
     private _router: Router
   ) {}
 
@@ -61,7 +63,22 @@ export class CartComponent implements OnInit {
 
   checkout() {
     if (this._authService.isLoggedIn()) {
-      this._router.navigate(['/checkout']);
+      const tokenResp = this._authService.getTokenResponse();
+
+      if (tokenResp) {
+        this._cartService.checkoutUserCart(tokenResp.id).subscribe({
+          next: (result) => {
+            this._router.navigate(['/orders/confirmation'], {
+              state: { order: result },
+            });
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+      } else {
+        throw new Error('User not logged in');
+      }
     } else {
       this._router.navigate(['/login']);
     }

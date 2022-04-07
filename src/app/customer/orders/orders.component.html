@@ -1,1 +1,44 @@
-<p>orders works!</p>
+<div class="container">
+  <h3>Orders</h3>
+  <br />
+  <div *ngIf="!orders || orders.length == 0">
+    <div class="alert alert-info" role="alert">No orders available.</div>
+  </div>
+  <div *ngIf="orders && orders.length > 0">
+    <div *ngFor="let order of orders">
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="row row-cols-3">
+            <div class="col text-start">Order #: {{ order.orderID }}</div>
+            <div class="col text-center">
+              <div class="text-uppercase" style="font-size: 12px">
+                Order Placed
+              </div>
+              <div>{{ order.orderDate | date: "MMMM dd, YYYY" }}</div>
+            </div>
+            <div class="col text-end">
+              <div class="text-uppercase" style="font-size: 12px">
+                Order Total
+              </div>
+              <div>{{ order.orderTotal | currency: "USD" }}</div>
+            </div>
+          </div>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let item of order.orderItems">
+            <div class="row row-cols-2">
+              <div class="col text-start">
+                <a [routerLink]="'/food/details/' + item.foodID">{{
+                  item.foodName
+                }}</a>
+              </div>
+              <div class="col text-end">
+                {{ item.foodCost | currency: "USD" }}
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

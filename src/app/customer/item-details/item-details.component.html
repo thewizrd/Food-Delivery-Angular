@@ -29,7 +29,29 @@
         </div>
         <div class="row mb-3">
           <div class="col">
-            <button class="btn btn-primary">Add</button>
+            <div
+              *ngIf="
+                isPresentInCart(cart, foodItem.foodID);
+                then incart;
+                else notincart
+              "
+            ></div>
+            <ng-template #notincart>
+              <button
+                class="btn btn-primary"
+                (click)="addToCart(foodItem.foodID)"
+              >
+                Add to cart
+              </button>
+            </ng-template>
+            <ng-template #incart>
+              <button
+                class="btn btn-danger"
+                (click)="removeFromCart(foodItem.foodID)"
+              >
+                Remove from cart
+              </button>
+            </ng-template>
           </div>
         </div>
         <div class="row">
